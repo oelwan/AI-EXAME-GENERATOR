@@ -80,6 +80,49 @@ project/
 - **Language**: Python 3.8+
 - **Dependencies**: See requirements.txt
 
+## 🚀 Deploy to Streamlit Community Cloud
+
+You can deploy this app to Streamlit Community Cloud for free and get a public URL that anyone can access!
+
+### Prerequisites
+- A GitHub account
+- A Groq API key (get it free at [console.groq.com](https://console.groq.com))
+
+### Step-by-Step Deployment
+
+1. **Push your code to GitHub:**
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/yourusername/ai-exam-generator.git
+   git push -u origin main
+   ```
+
+2. **Go to [share.streamlit.io](https://share.streamlit.io)**
+
+3. **Click "New app"**
+
+4. **Connect your GitHub repository:**
+   - Repository: `yourusername/ai-exam-generator`
+   - Branch: `main`
+   - Main file path: `main.py`
+
+5. **Add your API key in Streamlit Cloud:**
+   - Click "Advanced settings"
+   - In the "Secrets" section, add:
+     ```toml
+     GROQ_API_KEY = "your_actual_groq_api_key_here"
+     ```
+
+6. **Click "Deploy!"**
+
+Your app will be available at: `https://your-app-name.streamlit.app`
+
+### 🌐 Live Demo
+Once deployed, your AI Exam Generator will be accessible 24/7 at your custom Streamlit URL!
+
 ## Contributing
 
 1. Fork the repository
