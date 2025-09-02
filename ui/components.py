@@ -474,195 +474,380 @@ def setup_page_config():
 
 def create_login_screen():
     """Create the initial login/registration screen."""
-    # Custom CSS for styling
+    # Custom CSS for modern, organized styling
     st.markdown("""
         <style>
             .main {
-                background-color: white !important;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
             }
             .block-container {
-                max-width: 1000px;
-                padding: 2rem;
+                max-width: 1200px;
+                padding: 2rem 1rem;
             }
-            .login-container {
-                width: 100%;
-                max-width: 600px;
-                margin: 0 auto;
-                padding: 20px;
+            .main-container {
+                background: white;
+                border-radius: 20px;
+                padding: 40px;
+                margin: 20px auto;
+                max-width: 900px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(10px);
             }
-            .bau-header {
-                background-color: #003B70;
-                padding: 40px 20px;
+            .header-section {
                 text-align: center;
-                border-radius: 5px;
-                margin-bottom: 40px;
-                box-shadow: 0 4px 10px rgba(0, 59, 112, 0.3);
+                margin-bottom: 50px;
             }
-            .bau-text {
+            .bau-logo {
+                background: linear-gradient(135deg, #003B70 0%, #0056b3 100%);
                 color: white;
-                font-size: 80px;
+                font-size: 72px;
                 font-weight: 900;
                 letter-spacing: -2px;
-            }
-            .user-type-text {
-                color: #003B70;
-                font-size: 24px;
-                font-weight: 600;
+                padding: 30px 60px;
+                border-radius: 15px;
                 margin-bottom: 20px;
+                box-shadow: 0 10px 30px rgba(0, 59, 112, 0.3);
+                display: inline-block;
+            }
+            .platform-title {
+                color: #2d3748;
+                font-size: 28px;
+                font-weight: 700;
+                margin-bottom: 10px;
+            }
+            .platform-subtitle {
+                color: #718096;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .login-cards-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
+                margin: 40px 0;
+            }
+            .login-card {
+                background: white;
+                border: 2px solid #e2e8f0;
+                border-radius: 15px;
+                padding: 30px 20px;
                 text-align: center;
+                transition: all 0.3s ease;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
             }
-            .stButton button {
-                width: 100%;
-                height: 50px;
-                background-color: white !important;
-                color: #003B70 !important;
-                font-size: 16px !important;
-                font-weight: 500 !important;
-                border-radius: 5px !important;
-                border: 1px solid #003B70 !important;
-                margin: 10px 0 !important;
-                box-shadow: none !important;
+            .login-card:hover {
+                border-color: #003B70;
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 59, 112, 0.15);
             }
-            .stButton button:hover {
-                background-color: #f5f5f5 !important;
-                transform: none !important;
-                box-shadow: none !important;
+            .login-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, #003B70, #0056b3);
+                transform: scaleX(0);
+                transition: transform 0.3s ease;
             }
-            .register-btn button {
-                background-color: white !important;
-                color: #003B70 !important;
-                border: 1px solid #003B70 !important;
+            .login-card:hover::before {
+                transform: scaleX(1);
             }
-            .register-btn button:hover {
-                background-color: #f5f5f5 !important;
+            .card-icon {
+                font-size: 48px;
+                margin-bottom: 20px;
+                display: block;
             }
-            .developer-btn button {
-                background-color: #f0f0f0 !important;
-                color: #555 !important;
-                border: 1px dashed #999 !important;
-                font-size: 14px !important;
+            .card-title {
+                color: #2d3748;
+                font-size: 22px;
+                font-weight: 700;
+                margin-bottom: 15px;
             }
-            .developer-btn button:hover {
-                background-color: #e5e5e5 !important;
-            }
-            .divider {
-                margin: 30px 0;
-                border-top: 1px solid #ddd;
-            }
-            .language-selector {
-                text-align: center;
-                margin-top: 40px;
-                color: #666;
+            .card-description {
+                color: #718096;
                 font-size: 14px;
+                line-height: 1.5;
+                margin-bottom: 25px;
             }
-            .language-button {
-                background: none;
+            .card-button {
+                background: linear-gradient(135deg, #003B70 0%, #0056b3 100%);
+                color: white;
                 border: none;
-                color: #666;
+                padding: 12px 30px;
+                border-radius: 8px;
+                font-weight: 600;
                 font-size: 14px;
                 cursor: pointer;
-                padding: 5px 10px;
-                margin: 0 5px;
+                transition: all 0.3s ease;
+                width: 100%;
             }
-            .language-button:hover, .language-button.active {
+            .card-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 59, 112, 0.3);
+            }
+            .developer-card {
+                border-color: #e2e8f0;
+                background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            }
+            .developer-card .card-button {
+                background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+            }
+            .info-section {
+                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                border-radius: 15px;
+                padding: 30px;
+                margin: 40px 0;
+                border-left: 5px solid #003B70;
+            }
+            .info-title {
                 color: #003B70;
-                font-weight: bold;
-                text-decoration: underline;
+                font-size: 20px;
+                font-weight: 700;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .demo-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+            .demo-item {
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                border: 1px solid #e2e8f0;
+            }
+            .demo-item h4 {
+                color: #2d3748;
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+            .demo-item p {
+                color: #4a5568;
+                font-size: 14px;
+                margin: 5px 0;
+                font-family: 'Courier New', monospace;
+            }
+            .register-section {
+                text-align: center;
+                margin: 40px 0;
+                padding: 30px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 15px;
+                color: white;
+            }
+            .register-title {
+                font-size: 24px;
+                font-weight: 700;
+                margin-bottom: 15px;
+            }
+            .register-subtitle {
+                font-size: 16px;
+                margin-bottom: 25px;
+                opacity: 0.9;
+            }
+            .register-button {
+                background: white;
+                color: #667eea;
+                border: none;
+                padding: 15px 40px;
+                border-radius: 10px;
+                font-weight: 600;
+                font-size: 16px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .register-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+            }
+            .language-section {
+                text-align: center;
+                margin-top: 40px;
+                padding-top: 30px;
+                border-top: 1px solid #e2e8f0;
+            }
+            .language-button {
+                background: transparent;
+                border: 2px solid #e2e8f0;
+                color: #718096;
+                padding: 10px 20px;
+                margin: 0 10px;
+                border-radius: 8px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .language-button:hover {
+                border-color: #003B70;
+                color: #003B70;
+                background: #f7fafc;
             }
         </style>
     """, unsafe_allow_html=True)
 
-    # Center content
-    st.markdown('<div class="login-container">', unsafe_allow_html=True)
-    
-    # Large BAU text with blue background
-    st.markdown('<div class="bau-header"><div class="bau-text">BAU</div></div>', unsafe_allow_html=True)
-    
     # Get text based on language
     if st.session_state.language == "tr":
-        user_type_text = "Kullanıcı Tipi Seçin"
-        student_login = "Öğrenci Olarak Giriş Yap"
-        professor_login = "Profesör Olarak Giriş Yap"
-        developer_login = "Geliştirici Olarak Giriş Yap"
-        register_text = "Yeni Hesap Oluştur"
+        platform_title = "AI Sınav Üretici"
+        platform_subtitle = "Yapay zeka destekli sınav ve ödev oluşturma platformu"
+        student_title = "Öğrenci"
+        student_desc = "Sınavlara gir, kodlama alıştırmaları yap ve ilerlemeyi takip et"
+        student_button = "Öğrenci Girişi"
+        professor_title = "Profesör"
+        professor_desc = "Sınavlar oluştur, öğrenci performansını izle ve sonuçları analiz et"
+        professor_button = "Profesör Girişi"
+        developer_title = "Geliştirici"
+        developer_desc = "Sistem ayarlarını yönet, kullanıcıları kontrol et ve platform performansını izle"
+        developer_button = "Geliştirici Girişi"
+        demo_title = "Demo Hesap Bilgileri"
+        register_title = "Yeni Hesap Oluştur"
+        register_subtitle = "Platformumuza katılın ve AI destekli öğrenme deneyimini yaşayın"
+        register_button = "Kayıt Ol"
         english_text = "İNGİLİZCE"
         turkish_text = "TÜRKÇE"
     else:
-        user_type_text = "Select User Type"
-        student_login = "Login as Student"
-        professor_login = "Login as Professor"
-        developer_login = "Login as Developer"
-        register_text = "Register New Account"
+        platform_title = "AI Exam Generator"
+        platform_subtitle = "AI-powered exam and assignment creation platform for educational excellence"
+        student_title = "Student"
+        student_desc = "Take exams, practice coding exercises, and track your learning progress"
+        student_button = "Student Login"
+        professor_title = "Professor"
+        professor_desc = "Create exams, monitor student performance, and analyze learning outcomes"
+        professor_button = "Professor Login"
+        developer_title = "Developer"
+        developer_desc = "Manage system settings, oversee users, and monitor platform performance"
+        developer_button = "Developer Login"
+        demo_title = "Demo Account Information"
+        register_title = "Create New Account"
+        register_subtitle = "Join our platform and experience AI-powered learning"
+        register_button = "Register Now"
         english_text = "ENGLISH"
         turkish_text = "TÜRKÇE"
+
+    # Main container
+    st.markdown('<div class="main-container">', unsafe_allow_html=True)
     
-    # User Type Selection
-    st.markdown(f'<p class="user-type-text">{user_type_text}</p>', unsafe_allow_html=True)
+    # Header section
+    st.markdown(f'''
+    <div class="header-section">
+        <div class="bau-logo">BAU</div>
+        <div class="platform-title">{platform_title}</div>
+        <div class="platform-subtitle">{platform_subtitle}</div>
+    </div>
+    ''', unsafe_allow_html=True)
     
-    # Student Login Button
-    if st.button(student_login, key="student-login"):
-        st.session_state.show_login_form = True
-        st.session_state.login_type = "student"
-        st.rerun()
-
-    # Professor Login Button
-    if st.button(professor_login, key="professor-login"):
-        st.session_state.show_login_form = True
-        st.session_state.login_type = "professor"
-        st.rerun()
-        
-    # Developer Login Button
-    st.markdown('<div class="developer-btn">', unsafe_allow_html=True)
-    if st.button(developer_login, key="developer-login"):
-        st.session_state.show_login_form = True
-        st.session_state.login_type = "developer"
-        st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-
+    # Login cards container
+    st.markdown('<div class="login-cards-container">', unsafe_allow_html=True)
+    
+    # Create columns for the login cards
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown(f'''
+        <div class="login-card">
+            <div class="card-icon">🎓</div>
+            <div class="card-title">{student_title}</div>
+            <div class="card-description">{student_desc}</div>
+        </div>
+        ''', unsafe_allow_html=True)
+        if st.button(student_button, key="student-login", use_container_width=True):
+            st.session_state.show_login_form = True
+            st.session_state.login_type = "student"
+            st.rerun()
+    
+    with col2:
+        st.markdown(f'''
+        <div class="login-card">
+            <div class="card-icon">👨‍🏫</div>
+            <div class="card-title">{professor_title}</div>
+            <div class="card-description">{professor_desc}</div>
+        </div>
+        ''', unsafe_allow_html=True)
+        if st.button(professor_button, key="professor-login", use_container_width=True):
+            st.session_state.show_login_form = True
+            st.session_state.login_type = "professor"
+            st.rerun()
+    
+    with col3:
+        st.markdown(f'''
+        <div class="login-card developer-card">
+            <div class="card-icon">⚙️</div>
+            <div class="card-title">{developer_title}</div>
+            <div class="card-description">{developer_desc}</div>
+        </div>
+        ''', unsafe_allow_html=True)
+        if st.button(developer_button, key="developer-login", use_container_width=True):
+            st.session_state.show_login_form = True
+            st.session_state.login_type = "developer"
+            st.rerun()
+    
+    st.markdown('</div>', unsafe_allow_html=True)  # Close login-cards-container
+    
     # Demo Account Information
-    st.markdown("""
-    <div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; margin: 20px 0;">
-        <h4 style="color: #003B70; margin-bottom: 10px; font-size: 16px;">🔑 Demo Account Information</h4>
-        <div style="font-size: 14px; color: #495057;">
-            <strong>Developer Access:</strong><br>
-            Email: demo@bahcesehir.edu.tr<br>
-            Password: 1234<br><br>
-            <strong>Professor Access:</strong><br>
-            Any @bahcesehir.edu.tr email<br>
-            Any password<br><br>
-            <strong>Student Access:</strong><br>
-            Email: student.demo@bahcesehir.edu.tr<br>
-            Password: demo123<br>
-            (Or register a new account)
+    st.markdown(f'''
+    <div class="info-section">
+        <div class="info-title">
+            🔑 {demo_title}
+        </div>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h4>👨‍💻 Developer Access</h4>
+                <p>Email: demo@bahcesehir.edu.tr</p>
+                <p>Password: 1234</p>
+            </div>
+            <div class="demo-item">
+                <h4>👨‍🏫 Professor Access</h4>
+                <p>Email: Any @bahcesehir.edu.tr</p>
+                <p>Password: Any password</p>
+            </div>
+            <div class="demo-item">
+                <h4>🎓 Student Access</h4>
+                <p>Email: student.demo@bahcesehir.edu.tr</p>
+                <p>Password: demo123</p>
+            </div>
         </div>
     </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+    ''', unsafe_allow_html=True)
 
     # Register Section
-    st.markdown('<div class="register-btn">', unsafe_allow_html=True)
-    if st.button(register_text, key="register"):
+    st.markdown(f'''
+    <div class="register-section">
+        <div class="register-title">{register_title}</div>
+        <div class="register-subtitle">{register_subtitle}</div>
+    </div>
+    ''', unsafe_allow_html=True)
+    
+    if st.button(register_button, key="register", use_container_width=True):
         st.session_state.show_register_form = True
         st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
-    # Language selector at the bottom
-    st.markdown('<div class="language-selector">', unsafe_allow_html=True)
+    # Language selector
+    st.markdown(f'''
+    <div class="language-section">
+        <span style="color: #718096; margin-right: 20px;">Language:</span>
+    </div>
+    ''', unsafe_allow_html=True)
+    
     col1, col2 = st.columns([1, 1])
     with col1:
-        if st.button(english_text, key="lang_en"):
+        if st.button(english_text, key="lang_en", use_container_width=True):
             st.session_state.language = "en"
             st.rerun()
     with col2:
-        if st.button(turkish_text, key="lang_tr"):
+        if st.button(turkish_text, key="lang_tr", use_container_width=True):
             st.session_state.language = "tr"
             st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
-            
-    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)  # Close main-container
 
 def create_login_form():
     """Create the login form with validation."""
