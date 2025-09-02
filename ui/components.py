@@ -1043,21 +1043,25 @@ def create_sidebar():
             st.session_state.language = selected_language
             st.rerun()
         
-        # Logout Button
+        # TEMPORARY: Logout Button Hidden (Authentication Disabled)
+        # TODO: Re-enable when authentication is restored
         st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-        if st.button("🚪 Logout", use_container_width=True):
-            # Save session state before logout
-            try:
-                from main import save_session_state
-                save_session_state()
-            except Exception as e:
-                print(f"Failed to save session state: {e}")
-                
-            # Clear session state and return to login
-            for key in list(st.session_state.keys()):
-                if key != "language":  # Keep language preference
-                    del st.session_state[key]
-            
-            st.session_state.user_type = None
-            st.session_state.page = "login"
-            st.rerun() 
+        st.markdown("*Authentication temporarily disabled*", help="Login/logout functionality is currently disabled for easier access")
+        
+        # Logout functionality commented out for now
+        # if st.button("🚪 Logout", use_container_width=True):
+        #     # Save session state before logout
+        #     try:
+        #         from main import save_session_state
+        #         save_session_state()
+        #     except Exception as e:
+        #         print(f"Failed to save session state: {e}")
+        #         
+        #     # Clear session state and return to login
+        #     for key in list(st.session_state.keys()):
+        #         if key != "language":  # Keep language preference
+        #             del st.session_state[key]
+        #     
+        #     st.session_state.user_type = None
+        #     st.session_state.page = "login"
+        #     st.rerun() 
