@@ -183,27 +183,43 @@ class Database:
             conn.close()
 
     def initialize_default_users(self):
-        """Initialize default users, including the developer account."""
+        """Initialize default users, including the developer account and demo accounts."""
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
             
             # Check if the developer account exists
-            cursor.execute("SELECT * FROM users WHERE email = ?", ("omar@bahcesehir.edu.tr",))
+            cursor.execute("SELECT * FROM users WHERE email = ?", ("demo@bahcesehir.edu.tr",))
             developer = cursor.fetchone()
             
             # If developer account doesn't exist, create it
             if not developer:
                 developer_data = {
-                    "name": "Omar Developer",
-                    "email": "omar@bahcesehir.edu.tr",
+                    "name": "Demo Developer",
+                    "email": "demo@bahcesehir.edu.tr",
                     "student_id": "0000",
                     "department": "IT",
                     "user_type": "developer",
-                    "password": "1234"  # In production, this should be hashed
+                    "password": "1234"
                 }
                 self.register_user(developer_data)
                 print("Developer account created successfully")
+            
+            # Create demo student account for testing
+            cursor.execute("SELECT * FROM users WHERE email = ?", ("student.demo@bahcesehir.edu.tr",))
+            demo_student = cursor.fetchone()
+            
+            if not demo_student:
+                student_data = {
+                    "name": "Demo Student",
+                    "email": "student.demo@bahcesehir.edu.tr",
+                    "student_id": "1001",
+                    "department": "Computer Science",
+                    "user_type": "student",
+                    "password": "demo123"
+                }
+                self.register_user(student_data)
+                print("Demo student account created successfully")
             
             cursor.close()
             return True

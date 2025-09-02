@@ -621,6 +621,27 @@ def create_login_screen():
 
     st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
+    # Demo Account Information
+    st.markdown("""
+    <div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; margin: 20px 0;">
+        <h4 style="color: #003B70; margin-bottom: 10px; font-size: 16px;">🔑 Demo Account Information</h4>
+        <div style="font-size: 14px; color: #495057;">
+            <strong>Developer Access:</strong><br>
+            Email: demo@bahcesehir.edu.tr<br>
+            Password: 1234<br><br>
+            <strong>Professor Access:</strong><br>
+            Any @bahcesehir.edu.tr email<br>
+            Any password<br><br>
+            <strong>Student Access:</strong><br>
+            Email: student.demo@bahcesehir.edu.tr<br>
+            Password: demo123<br>
+            (Or register a new account)
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+
     # Register Section
     st.markdown('<div class="register-btn">', unsafe_allow_html=True)
     if st.button(register_text, key="register"):
@@ -709,7 +730,7 @@ def create_login_form():
             else:
                 # Special check for developer login
                 if st.session_state.login_type == "developer":
-                    if email == "omar@bahcesehir.edu.tr" and password == "1234":
+                    if email == "demo@bahcesehir.edu.tr" and password == "1234":
                         st.session_state.user_type = "developer"
                         st.session_state.page = "developer_home"
                         st.session_state.show_login_form = False
@@ -1043,25 +1064,21 @@ def create_sidebar():
             st.session_state.language = selected_language
             st.rerun()
         
-        # TEMPORARY: Logout Button Hidden (Authentication Disabled)
-        # TODO: Re-enable when authentication is restored
+        # Logout Button
         st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-        st.markdown("*Authentication temporarily disabled*", help="Login/logout functionality is currently disabled for easier access")
-        
-        # Logout functionality commented out for now
-        # if st.button("🚪 Logout", use_container_width=True):
-        #     # Save session state before logout
-        #     try:
-        #         from main import save_session_state
-        #         save_session_state()
-        #     except Exception as e:
-        #         print(f"Failed to save session state: {e}")
-        #         
-        #     # Clear session state and return to login
-        #     for key in list(st.session_state.keys()):
-        #         if key != "language":  # Keep language preference
-        #             del st.session_state[key]
-        #     
-        #     st.session_state.user_type = None
-        #     st.session_state.page = "login"
-        #     st.rerun() 
+        if st.button("🚪 Logout", use_container_width=True):
+            # Save session state before logout
+            try:
+                from main import save_session_state
+                save_session_state()
+            except Exception as e:
+                print(f"Failed to save session state: {e}")
+                
+            # Clear session state and return to login
+            for key in list(st.session_state.keys()):
+                if key != "language":  # Keep language preference
+                    del st.session_state[key]
+            
+            st.session_state.user_type = None
+            st.session_state.page = "login"
+            st.rerun() 

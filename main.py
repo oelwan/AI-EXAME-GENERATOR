@@ -496,21 +496,15 @@ def main():
     # Setup page configuration
     setup_page_config()
     
-    # TEMPORARY: Skip login requirement - set default user type
-    # TODO: Re-enable authentication later when needed
+    # Show login screen if not logged in
     if st.session_state.user_type is None:
-        st.session_state.user_type = "student"  # Default to student access
-        st.session_state.page = "student_home"  # Default to student home page
-    
-    # Show login screen if not logged in (COMMENTED OUT FOR NOW)
-    # if st.session_state.user_type is None:
-    #     if st.session_state.show_login_form:
-    #         create_login_form()
-    #     elif st.session_state.show_register_form:
-    #         create_register_form()
-    #     else:
-    #         create_login_screen()
-    #     return
+        if st.session_state.show_login_form:
+            create_login_form()
+        elif st.session_state.show_register_form:
+            create_register_form()
+        else:
+            create_login_screen()
+        return
     
     # Create sidebar for logged-in users
     create_sidebar()
