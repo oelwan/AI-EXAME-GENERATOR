@@ -2,8 +2,9 @@
 
 A powerful educational tool that uses AI to generate personalized quizzes and coding assignments specifically for machine learning courses. Built with Streamlit and powered by Groq's LLM.
 
-## Features
 TO TAKE A LOOK ON THE WEBSITE PRESS THIS LINK --> https://ai-exame-generator-9bngyjajgyqwuzuywqcd93.streamlit.app/
+## Features
+
 - **ML Quiz Generator**
   - Create customized multiple-choice questions on any machine learning topic
   - Set difficulty level and number of questions
